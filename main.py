@@ -10,7 +10,7 @@ from Thresholding import Thresholding
 from LaneLines import LaneLines
 
 class FindLaneLines:
-    def __init__(self):  # ✅ Fix: correct constructor
+    def __init__(self):  #Fix: correct constructor
         # Provide required arguments to CameraCalibration
         image_dir = 'camera_cal'  # folder with calibration images
         nx = 9                    # chessboard corners along x
@@ -20,7 +20,7 @@ class FindLaneLines:
         self.threshold = Thresholding()
         self.lane_lines = LaneLines()
 
-    def forward(self, img):  # ✅ This was missing
+    def forward(self, img):  #This was missing
         original = np.copy(img)
 
         # 1. Undistort the image
@@ -48,7 +48,7 @@ class FindLaneLines:
 
     def process_video(self, input_path, output_path):
         if not os.path.exists(input_path):
-            print(f"❌ Error: Input file does not exist -> {input_path}")
+            print(f"Error: Input file does not exist -> {input_path}")
             return
 
         output_dir = os.path.dirname(output_path)
@@ -58,16 +58,16 @@ class FindLaneLines:
         try:
             clip = VideoFileClip(input_path)
             if clip.duration == 0 or clip.reader.nframes == 0:
-                print(f"❌ Error: The video is empty or corrupted -> {input_path}")
+                print(f"Error: The video is empty or corrupted -> {input_path}")
                 return
 
-            print("⏳ Processing video...")
+            print("Processing video...")
             processed_clip = clip.fl_image(self.forward)
             processed_clip.write_videofile(output_path, audio=False)
-            print(f"✅ Processing complete! Saved to {output_path}")
+            print(f"Processing complete! Saved to {output_path}")
 
         except Exception as e:
-            print(f"❌ Error during video processing: {e}")
+            print(f"Error during video processing: {e}")
 
 if __name__ == "__main__":
     lane_finder = FindLaneLines()
